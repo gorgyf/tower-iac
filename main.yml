@@ -7,7 +7,7 @@
         mount_path: /media/gf/
         disks: # note: get your drive UUIDs with 'lsblk -f'
           - name: SanDisk1TB
-            device: UUID="a2dc012b-8c84-49f4-a8bf-071d91351790"
+            device: UUID="02af459b-ede0-4053-8d27-a918787e3592"
     - role: dropbear
       vars:
         authorized_keys:

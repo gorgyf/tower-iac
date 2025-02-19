@@ -36,6 +36,6 @@
   mount:
     path: "{{ mount_path + item.name }}"
     src: "{{ '/dev/mapper/' + item.name }}"
-    state: mounted
+    state: present
     fstype: ext4
   loop: "{{ disks }}"
