@@ -1,0 +1,31 @@
+---
+# tasks file for dropbear
+
+- name: Update apt and install dropbear packages
+  apt:
+    pkg: 
+      - dropbear
+      - dropbear-initramfs
+    state: present
+    update_cache: true
+
+
+- name: ensure directory for dropbear files exists
+  file:
+    path: "/etc/dropbear/initramfs"
+    state: directory
+
+
+# see https://gist.github.com/fred0r/4b69a6075b8f12f7dc0df9b253592f43
+- name: add dropbear authorized_keys
+  template:
+    src: "authorized_keys.j2"
+    dest: "/etc/dropbear/initramfs/authorized_keys"
+  notify: Update initramfs
+
+
+- name: update dropbear.conf
+  template:
+    src: "dropbear.conf.j2"
+    dest: "/etc/dropbear/initramfs/dropbear.conf"
+  notify: Update initramfs

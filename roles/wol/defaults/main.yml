@@ -1,0 +1,5 @@
+---
+# defaults file for wol
+
+device_name: netplan-enp2s0
+wol_mode: magic

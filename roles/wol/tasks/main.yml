@@ -1,0 +1,7 @@
+---
+# tasks file for wol
+# see https://pimylifeup.com/ubuntu-enable-wake-on-lan/ for more info
+- name: enable WOL
+  command: 
+    cmd: "nmcli connection modify {{ device_name }} 802-3-ethernet.wake-on-lan {{ wol_mode }}"
+  tags: molecule-notest

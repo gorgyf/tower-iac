@@ -1,0 +1,44 @@
+# This workflow will install ansible and molecule and will tests the ansible roles
+
+name: Molecule
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+
+    runs-on: ubuntu-22.04
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y libssl-dev
+        python -m pip install --upgrade pip
+        pip install molecule==24.* ansible molecule-plugins[docker]
+
+    - name: Test wol role individually
+      working-directory: ./roles/wol
+      run: |
+        molecule test
+
+    - name: Test dropbear role individually
+      working-directory: ./roles/dropbear
+      run: |
+        molecule test
+
+    - name: Test main.yml playbook
+      run: |
+        molecule test

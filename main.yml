@@ -1,0 +1,9 @@
+---
+- hosts: tower
+  become: true
+  roles:
+    - role: dropbear
+      vars:
+        authorized_keys:
+          - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDfG8zWzGMW6eTqNZgSo0VBDZvvUmr+QP4DERPPii9uaIVZZ6PS+sRw1ppG73Y6ZD01eGU87EmaGzWBuhwZ69SXzkq1vb6RMR3cMn5YUjcprm98gVwIeWvXLVuy2EiQCLQ7tASOWY+FAiqHDRRnoXU652rIErYjn/F/aRZV1UF70IE/twZLXluqymsUkkRKVkINTGnrAWRdkIDNMghv7dmZ6TRCSG8vxgbWTwK1F79QEoKWlS0h8CPzrWEHD18fZod0211g6Vw7w5tIPh1DSY3qytt1fTZqdqOS6/aGeTU6S1HfSlvBRcEPcI1cO9te7SqO9AUG71zmBwQ26EFjLC5fCO36SyxJfozuAuH/UpThtdV5hyyPWdakBr2aznYY5CpAgutGFxSnfyAnKCDv02isgh9rsRKWKMJZ5C/UoDxKlHMI7jcNlwGE6i0nPjxUhDVYeYSwhWlOEpOHnexZs0JIiUQ/UuFiMnMQqkgsky1m2UjkCDrWgGoEMf9nKe98Mt8= root@DESKTOP-65UDUS4
+    - role: wol

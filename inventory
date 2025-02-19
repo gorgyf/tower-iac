@@ -1,0 +1,7 @@
+[tower]
+192.168.0.42
+
+[tower:vars]
+ansible_user=USERNAME
+ansible_password=PASSWORD
+ansible_sudo_pass=SUDO_PASSWORD
