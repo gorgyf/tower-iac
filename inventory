@@ -1,7 +1,8 @@
 [tower]
-192.168.0.42
+192.168.0.41
 
 [tower:vars]
 ansible_user=USERNAME
 ansible_password=PASSWORD
 ansible_sudo_pass=SUDO_PASSWORD
+encryption_key=ENCRYPTION_KEY

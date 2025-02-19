@@ -39,6 +39,11 @@ jobs:
       run: |
         molecule test
 
+    - name: Test osconfig role individually
+      working-directory: ./roles/osconfig
+      run: |
+        molecule test
+
     - name: Test main.yml playbook
       run: |
         molecule test

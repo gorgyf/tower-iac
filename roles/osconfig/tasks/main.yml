@@ -1,0 +1,41 @@
+---
+# tasks file for osconfig
+
+- name: Update apt and install docker packages
+  apt:
+    pkg: 
+      - docker.io
+    state: present
+    update_cache: true
+
+
+- name: disable lock screen
+  command: 
+    cmd: "gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'"
+  tags: molecule-notest
+
+
+- name: create luks password file
+  copy:
+    content: "{{ encryption_key }}"
+    dest: "{{ password_file }}"
+  no_log: yes
+
+
+- name: create crypttab entries for drives
+  community.general.crypttab:
+    name: "{{ item.name }}"
+    backing_device: "{{ item.device }}"
+    password: "{{ password_file }}"
+    opts: luks
+    state: present
+  loop: "{{ disks }}"
+
+
+- name: create fstab entries for drives
+  mount:
+    path: "{{ mount_path + item.name }}"
+    src: "{{ '/dev/mapper/' + item.name }}"
+    state: mounted
+    fstype: ext4
+  loop: "{{ disks }}"
