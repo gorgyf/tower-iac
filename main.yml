@@ -8,6 +8,9 @@
         disks: # note: get your drive UUIDs with 'lsblk -f'
           - name: SanDisk1TB
             device: UUID="02af459b-ede0-4053-8d27-a918787e3592"
+        # generate admin password hash with:
+        # htpasswd -nb -B admin "your-password" | cut -d ":" -f 2
+        portainer_password: "{{ portainer_password }}"
     - role: dropbear
       vars:
         authorized_keys:

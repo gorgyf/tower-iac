@@ -5,3 +5,5 @@ password_file: /root/lukskey
 encryption_key: DefaultPassword
 mount_path: /media/gf/
 disks: []
+# default password is "your-password"
+portainer_password: $2y$05$8oz75U8m5tI/xT4P0NbSHeE7WyRzOWKRBprfGotwDkhBOGP/u802u

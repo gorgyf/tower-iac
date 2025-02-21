@@ -1,12 +1,18 @@
 ---
 # tasks file for osconfig
 
+- name: Update and upgrade apt packages
+  apt:
+    upgrade: yes
+    update_cache: yes
+
+
 - name: Update apt and install docker packages
   apt:
     pkg: 
       - docker.io
+      # - nvidia-container-toolkit
     state: present
-    update_cache: true
 
 
 - name: disable lock screen
@@ -39,3 +45,27 @@
     state: present
     fstype: ext4
   loop: "{{ disks }}"
+
+
+# see https://docs.portainer.io/advanced/cli
+- name: set up portainer volume
+  community.docker.docker_volume:
+    name: portainer_data
+
+
+- name: set up portainer
+  community.docker.docker_container:
+    name: portainer
+    image: portainer/portainer-ce:lts
+    command: --admin-password='{{ portainer_password }}'
+    restart_policy: always
+    ports:
+      - 9443:9443
+      # - 8000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+
+# todo set up portainer config
+# - name:
