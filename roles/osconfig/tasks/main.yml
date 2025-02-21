@@ -11,6 +11,7 @@
   apt:
     pkg: 
       - docker.io
+      - python3-requests
       # - nvidia-container-toolkit
     state: present
 
@@ -57,7 +58,7 @@
   community.docker.docker_container:
     name: portainer
     image: portainer/portainer-ce:lts
-    command: --admin-password='{{ portainer_password }}'
+    command: --admin-password='{{ admin_password }}'
     restart_policy: always
     ports:
       - 9443:9443

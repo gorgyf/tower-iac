@@ -6,4 +6,4 @@ encryption_key: DefaultPassword
 mount_path: /media/gf/
 disks: []
 # default password is "password"
-portainer_password: $2y$05$5wrCLu/URwOIUUegL3LG3ecPMvg1PITcsVzxYVK6aRew3yAr9l6/S
+admin_password: $2y$05$5wrCLu/URwOIUUegL3LG3ecPMvg1PITcsVzxYVK6aRew3yAr9l6/S
