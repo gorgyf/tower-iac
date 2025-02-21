@@ -4,8 +4,8 @@ dependency:
 driver:
   name: docker
 platforms:
-  - name: debian
-    image: debian:11
+  - name: ubuntu
+    image: ubuntu:24.04
 provisioner:
   name: ansible
 verifier:

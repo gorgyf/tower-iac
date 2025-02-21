@@ -4,8 +4,10 @@ dependency:
 driver:
   name: docker
 platforms:
-  - name: debian
-    image: debian:11
+  - name: tower
+    image: ubuntu:24.04
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 provisioner:
   name: ansible
 verifier:
