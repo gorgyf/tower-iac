@@ -12,16 +12,10 @@ permissions:
   contents: read
 
 jobs:
-  test:
-
-    runs-on: ubuntu-22.04
-
+  test-wol:
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.10"
+    - uses: actions/checkout@v4
     - name: Install dependencies
       run: |
         sudo apt update
@@ -31,19 +25,49 @@ jobs:
 
     - name: Test wol role individually
       working-directory: ./roles/wol
+      run: molecule test
+
+
+  test-dropbear:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install dependencies
       run: |
-        molecule test
+        sudo apt update
+        sudo apt install -y libssl-dev
+        python -m pip install --upgrade pip
+        pip install molecule==24.* ansible molecule-plugins[docker]
 
     - name: Test dropbear role individually
       working-directory: ./roles/dropbear
-      run: |
-        molecule test
+      run: molecule test
 
+
+  test-osconfig:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y libssl-dev
+        python -m pip install --upgrade pip
+        pip install molecule==24.* ansible molecule-plugins[docker]
     - name: Test osconfig role individually
       working-directory: ./roles/osconfig
-      run: |
-        molecule test
+      run: molecule test
 
-    - name: Test main.yml playbook
+
+  test-playbook:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install dependencies
       run: |
-        molecule test
+        sudo apt update
+        sudo apt install -y libssl-dev
+        python -m pip install --upgrade pip
+        pip install molecule==24.* ansible molecule-plugins[docker]
+    - name: Test main.yml playbook
+      run: molecule test
