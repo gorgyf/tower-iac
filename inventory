@@ -6,4 +6,4 @@ ansible_user=USERNAME
 ansible_password=PASSWORD
 ansible_sudo_pass=SUDO_PASSWORD
 encryption_key=ENCRYPTION_KEY
-portainer_password=$2y$05$8oz75U8m5tI/xT4P0NbSHeE7WyRzOWKRBprfGotwDkhBOGP/u802u
+portainer_password=$2y$05$5wrCLu/URwOIUUegL3LG3ecPMvg1PITcsVzxYVK6aRew3yAr9l6/S
