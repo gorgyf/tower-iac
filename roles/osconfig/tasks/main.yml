@@ -58,7 +58,7 @@
   community.docker.docker_container:
     name: portainer
     image: portainer/portainer-ce:lts
-    command: --admin-password='{{ admin_password }}'
+    command: --admin-password='{{ portainer_password }}'
     restart_policy: always
     ports:
       - 9443:9443
