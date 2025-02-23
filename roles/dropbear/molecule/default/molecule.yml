@@ -8,5 +8,7 @@ platforms:
     image: ubuntu:24.04
 provisioner:
   name: ansible
+  env:
+    ANSIBLE_ROLES_PATH: ../../../../roles
 verifier:
   name: ansible

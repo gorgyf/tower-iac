@@ -21,7 +21,7 @@ jobs:
         sudo apt update
         sudo apt install -y libssl-dev
         python -m pip install --upgrade pip
-        pip install molecule==24.* ansible molecule-plugins[docker]
+        pip install molecule ansible molecule-plugins[docker]
 
     - name: Test wol role individually
       working-directory: ./roles/wol
@@ -37,7 +37,7 @@ jobs:
         sudo apt update
         sudo apt install -y libssl-dev
         python -m pip install --upgrade pip
-        pip install molecule==24.* ansible molecule-plugins[docker]
+        pip install molecule ansible molecule-plugins[docker]
 
     - name: Test dropbear role individually
       working-directory: ./roles/dropbear
@@ -53,7 +53,7 @@ jobs:
         sudo apt update
         sudo apt install -y libssl-dev
         python -m pip install --upgrade pip
-        pip install molecule==24.* ansible molecule-plugins[docker]
+        pip install molecule ansible molecule-plugins[docker]
     - name: Test osconfig role individually
       working-directory: ./roles/osconfig
       run: molecule test
@@ -68,6 +68,6 @@ jobs:
         sudo apt update
         sudo apt install -y libssl-dev
         python -m pip install --upgrade pip
-        pip install molecule==24.* ansible molecule-plugins[docker]
+        pip install molecule ansible molecule-plugins[docker]
     - name: Test main.yml playbook
       run: molecule test
