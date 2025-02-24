@@ -7,13 +7,36 @@
     update_cache: yes
 
 
-- name: Update apt and install docker packages
+- name: install prequesites
+  apt:
+    pkg: 
+      - curl
+      - gpg
+      - python3-requests
+      - wget
+    state: present
+    update_cache: yes
+
+
+- name: Add Nvidia gpgkey
+  apt_key:
+    url: https://nvidia.github.io/libnvidia-container/gpgkey
+    state: present
+
+
+- name: Add Nvidia apt repo
+  get_url:
+    url: https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list
+    dest: /etc/apt/sources.list.d/nvidia-container-toolkit.list
+ 
+
+- name: Install required packages
   apt:
     pkg: 
       - docker.io
-      - python3-requests
-      # - nvidia-container-toolkit
+      - nvidia-container-toolkit
     state: present
+    update_cache: yes
 
 
 - name: disable lock screen
