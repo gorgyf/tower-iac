@@ -1,10 +1,12 @@
 # tower IaC Script
 
-[![Molecule](https://github.com/zr123/tower-iac/actions/workflows/molecule.yml/badge.svg)](https://github.com/zr123/tower-iac/actions/workflows/molecule.yml)
+[![Playbook](https://github.com/zr123/tower-iac/actions/workflows/playbook.yml/badge.svg)](https://github.com/zr123/tower-iac/actions/workflows/playbook.yml)
+[![dropbear](https://github.com/zr123/tower-iac/actions/workflows/dropbear.yml/badge.svg)](https://github.com/zr123/tower-iac/actions/workflows/dropbear.yml)
+[![osconfig](https://github.com/zr123/tower-iac/actions/workflows/osconfig.yml/badge.svg)](https://github.com/zr123/tower-iac/actions/workflows/osconfig.yml)
+[![wol](https://github.com/zr123/tower-iac/actions/workflows/wol.yml/badge.svg)](https://github.com/zr123/tower-iac/actions/workflows/wol.yml)
 
 
 ## TODO
 
 - jupyterhub
 - conda?
-
