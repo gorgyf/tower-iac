@@ -39,10 +39,16 @@
     update_cache: yes
 
 
+- name: set sleep timeout delay to 3 hours
+  command: 
+    cmd: "gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 10800"
+  changed_when: false
+
+
 - name: disable lock screen
   command: 
     cmd: "gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'"
-  tags: molecule-notest
+  changed_when: false
 
 
 - name: create luks password file
