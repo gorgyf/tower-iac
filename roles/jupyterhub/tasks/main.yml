@@ -2,17 +2,16 @@
 # tasks file for jupyterhub
 
 # TODO
-# - clone repo
-# start compose
-# pull / build images
 # set up cronjob to rebuild/pull images regularly
-# 
+# use variables
+# update playbook
 
 - name: install prequesites
   apt:
     pkg: 
       - git
       - docker.io
+      - docker-buildx
       - python3-requests
     state: present
     update_cache: yes
