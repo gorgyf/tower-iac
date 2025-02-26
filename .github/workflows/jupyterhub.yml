@@ -1,6 +1,6 @@
 # This workflow will install ansible and molecule and will tests the ansible roles
 
-name: osconfig
+name: jupyterhub
 
 on:
   push:
