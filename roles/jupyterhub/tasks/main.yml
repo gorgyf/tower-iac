@@ -1,0 +1,42 @@
+---
+# tasks file for jupyterhub
+
+# TODO
+# - clone repo
+# start compose
+# pull / build images
+# set up cronjob to rebuild/pull images regularly
+# 
+
+- name: install prequesites
+  apt:
+    pkg: 
+      - git
+      - docker.io
+      - python3-requests
+    state: present
+    update_cache: yes
+
+
+- name: clone jupyterhub repository
+  git:
+    repo: https://github.com/zr123/jupyterhub
+    dest: /opt/
+
+
+- name: pully scipy image
+  community.docker.docker_image_pull:
+    name: jupyter/scipy-notebook:latest
+
+
+- name: build tensorflow image
+  community.docker.docker_image_build:
+    path: /opt/jupyterhub
+    name: tensorflow-jupyterhub
+
+
+- name: start jupyterhub
+  command:
+    cmd: docker compose up -d
+    chdir: /opt/jupyterhub
+  changed_when: false

@@ -4,9 +4,4 @@
 [![dropbear](https://github.com/zr123/tower-iac/actions/workflows/dropbear.yml/badge.svg)](https://github.com/zr123/tower-iac/actions/workflows/dropbear.yml)
 [![osconfig](https://github.com/zr123/tower-iac/actions/workflows/osconfig.yml/badge.svg)](https://github.com/zr123/tower-iac/actions/workflows/osconfig.yml)
 [![wol](https://github.com/zr123/tower-iac/actions/workflows/wol.yml/badge.svg)](https://github.com/zr123/tower-iac/actions/workflows/wol.yml)
-
-
-## TODO
-
-- jupyterhub
-- conda?
+[![jupyterhub](https://github.com/zr123/tower-iac/actions/workflows/jupyterhub.yml/badge.svg)](https://github.com/zr123/tower-iac/actions/workflows/jupyterhub.yml)
