@@ -4,13 +4,13 @@
 # TODO
 # set up cronjob to rebuild/pull images regularly
 # use variables
-# update playbook
 
 - name: install prequesites
   apt:
     pkg: 
       - git
       - docker.io
+      - docker-compose-v2
       - docker-buildx
       - python3-requests
     state: present
@@ -20,7 +20,7 @@
 - name: clone jupyterhub repository
   git:
     repo: https://github.com/zr123/jupyterhub
-    dest: /opt/
+    dest: /opt/jupyterhub/
 
 
 - name: pully scipy image
@@ -35,7 +35,5 @@
 
 
 - name: start jupyterhub
-  command:
-    cmd: docker compose up -d
-    chdir: /opt/jupyterhub
-  changed_when: false
+  community.docker.docker_compose_v2:
+    project_src: /opt/jupyterhub

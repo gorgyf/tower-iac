@@ -15,3 +15,4 @@
     - role: wol
       vars:
         device_name: netplan-enp5s0
+    - role: jupyterhub
