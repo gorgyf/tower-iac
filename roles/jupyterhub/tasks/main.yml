@@ -30,7 +30,7 @@
 
 - name: build tensorflow image
   community.docker.docker_image_build:
-    path: /opt/jupyterhub
+    path: /opt/jupyterhub/tensorflow-jupyterhub
     name: tensorflow-jupyterhub
 
 
