@@ -1,10 +1,6 @@
 ---
 # tasks file for jupyterhub
 
-# TODO
-# set up cronjob to rebuild/pull images regularly
-# use variables
-
 - name: install prequesites
   apt:
     pkg: 
@@ -13,27 +9,25 @@
       - docker-compose-v2
       - docker-buildx
       - python3-requests
+      - anacron
     state: present
     update_cache: yes
 
 
 - name: clone jupyterhub repository
   git:
-    repo: https://github.com/zr123/jupyterhub
-    dest: /opt/jupyterhub/
+    repo: "{{ jupyterhub_repo }}"
+    dest: "{{ install_path }}"
 
 
-- name: pully scipy image
-  community.docker.docker_image_pull:
-    name: jupyter/scipy-notebook:latest
+- name: setup jupyterhub cronjob for setup & update
+  template:
+    src: jupyterhub_cron.sh.j2
+    dest: /etc/cron.monthly/jupyterhub_cron.sh
+    mode: '0755'
 
 
-- name: build tensorflow image
-  community.docker.docker_image_build:
-    path: /opt/jupyterhub/tensorflow-jupyterhub
-    name: tensorflow-jupyterhub
-
-
-- name: start jupyterhub
-  community.docker.docker_compose_v2:
-    project_src: /opt/jupyterhub
+- name: run jupyterhub cronjob for initial setup
+  command:
+    cmd: /etc/cron.monthly/jupyterhub_cron.sh
+  changed_when: false

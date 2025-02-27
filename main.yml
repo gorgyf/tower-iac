@@ -16,3 +16,6 @@
       vars:
         device_name: netplan-enp5s0
     - role: jupyterhub
+      vars:
+        install_path: /opt/jupyterhub/
+        jupyterhub_repo: https://github.com/zr123/jupyterhub

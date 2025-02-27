@@ -1,0 +1,5 @@
+---
+# defaults file for jupyterhub
+
+jupyterhub_repo: https://github.com/zr123/jupyterhub
+install_path: /opt/jupyterhub/
