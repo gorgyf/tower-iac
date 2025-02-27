@@ -12,7 +12,6 @@
     pkg: 
       - curl
       - gpg
-      - python3-requests
       - wget
     state: present
     update_cache: yes
@@ -30,10 +29,9 @@
     dest: /etc/apt/sources.list.d/nvidia-container-toolkit.list
  
 
-- name: Install required packages
+- name: Install nvidia package
   apt:
     pkg: 
-      - docker.io
       - nvidia-container-toolkit
     state: present
     update_cache: yes
@@ -75,27 +73,3 @@
     state: present
     fstype: ext4
   loop: "{{ disks }}"
-
-
-# see https://docs.portainer.io/advanced/cli
-- name: set up portainer volume
-  community.docker.docker_volume:
-    name: portainer_data
-
-
-- name: set up portainer
-  community.docker.docker_container:
-    name: portainer
-    image: portainer/portainer-ce:lts
-    command: --admin-password='{{ portainer_password }}'
-    restart_policy: always
-    ports:
-      - 9443:9443
-      # - 8000
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
-
-
-# todo set up portainer config
-# - name:

@@ -1,0 +1,33 @@
+---
+# tasks file for portainer
+
+- name: install prequesites
+  apt:
+    pkg: 
+      - docker.io
+      - python3-requests
+    state: present
+    update_cache: yes
+
+
+# see https://docs.portainer.io/advanced/cli
+- name: set up portainer volume
+  community.docker.docker_volume:
+    name: portainer_data
+
+
+- name: set up portainer
+  community.docker.docker_container:
+    name: portainer
+    image: portainer/portainer-ce:lts
+    command: --admin-password='{{ portainer_password }}'
+    restart_policy: always
+    ports:
+      - 9443:9443
+      # - 8000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+
+# todo set up portainer config

@@ -1,0 +1,7 @@
+---
+# defaults file for portainer
+
+# set this variable in the inventory file
+# generate admin password hash with:
+# htpasswd -nb -B admin "password" | cut -d ":" -f 2
+portainer_password: $2y$05$5wrCLu/URwOIUUegL3LG3ecPMvg1PITcsVzxYVK6aRew3yAr9l6/S
