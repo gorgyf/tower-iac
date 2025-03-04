@@ -7,14 +7,29 @@
     update_cache: yes
 
 
-- name: install prequesites
+- name: install packages
   apt:
     pkg: 
       - curl
       - gpg
       - wget
+      - flatpak
+      - gnome-software-plugin-flatpak
     state: present
     update_cache: yes
+
+
+- name: Add the flathub flatpak repository
+  community.general.flatpak_remote:
+    name: flathub
+    state: present
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+
+
+- name: Install flatpaks
+  community.general.flatpak:
+    name:
+      - com.heroicgameslauncher.hgl
 
 
 - name: Add Nvidia gpgkey
