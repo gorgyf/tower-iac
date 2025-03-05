@@ -1,90 +1,93 @@
 ---
 # tasks file for osconfig
 
-- name: Update and upgrade apt packages
-  apt:
-    upgrade: yes
-    update_cache: yes
+- name: Update system and install apt packages
+  block:
+  - name: Update and upgrade apt packages
+    apt:
+      upgrade: yes
+      update_cache: yes
+
+  - name: install packages
+    apt:
+      pkg: 
+        - curl
+        - gpg
+        - wget
+        - flatpak
+        - gnome-software-plugin-flatpak
+      state: present
+      update_cache: yes
 
 
-- name: install packages
-  apt:
-    pkg: 
-      - curl
-      - gpg
-      - wget
-      - flatpak
-      - gnome-software-plugin-flatpak
-    state: present
-    update_cache: yes
+- name: Setup flathub and install flatpaks
+  block:
+  - name: Add the flathub flatpak repository
+    community.general.flatpak_remote:
+      name: flathub
+      state: present
+      flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+
+  - name: Install flatpaks
+    community.general.flatpak:
+      name:
+        - com.heroicgameslauncher.hgl
 
 
-- name: Add the flathub flatpak repository
-  community.general.flatpak_remote:
-    name: flathub
-    state: present
-    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+- name: Configure Nvidia support for containers
+  block:
+  - name: Add Nvidia gpgkey
+    apt_key:
+      url: https://nvidia.github.io/libnvidia-container/gpgkey
+      state: present
+
+  - name: Add Nvidia apt repo
+    get_url:
+      url: https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list
+      dest: /etc/apt/sources.list.d/nvidia-container-toolkit.list
+
+  - name: Install nvidia package
+    apt:
+      pkg: 
+        - nvidia-container-toolkit
+      state: present
+      update_cache: yes
 
 
-- name: Install flatpaks
-  community.general.flatpak:
-    name:
-      - com.heroicgameslauncher.hgl
+- name: Various OS configurations
+  block:
+  - name: set sleep timeout delay to 3 hours
+    command: 
+      cmd: "gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 10800"
+    tags: molecule-notest
+
+  - name: disable lock screen
+    command: 
+      cmd: "gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'"
+    tags: molecule-notest
 
 
-- name: Add Nvidia gpgkey
-  apt_key:
-    url: https://nvidia.github.io/libnvidia-container/gpgkey
-    state: present
+- name: Setup for additional encrypted disk(s)
+  block:
+  - name: create luks password file
+    copy:
+      content: "{{ encryption_key }}"
+      dest: "{{ password_file }}"
+    no_log: yes
 
+  - name: create crypttab entries for drives
+    community.general.crypttab:
+      name: "{{ item.name }}"
+      backing_device: "{{ item.device }}"
+      password: "{{ password_file }}"
+      opts: luks
+      state: present
+    loop: "{{ disks }}"
 
-- name: Add Nvidia apt repo
-  get_url:
-    url: https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list
-    dest: /etc/apt/sources.list.d/nvidia-container-toolkit.list
- 
-
-- name: Install nvidia package
-  apt:
-    pkg: 
-      - nvidia-container-toolkit
-    state: present
-    update_cache: yes
-
-
-- name: set sleep timeout delay to 3 hours
-  command: 
-    cmd: "gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 10800"
-  tags: molecule-notest
-
-
-- name: disable lock screen
-  command: 
-    cmd: "gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'"
-  tags: molecule-notest
-
-
-- name: create luks password file
-  copy:
-    content: "{{ encryption_key }}"
-    dest: "{{ password_file }}"
-  no_log: yes
-
-
-- name: create crypttab entries for drives
-  community.general.crypttab:
-    name: "{{ item.name }}"
-    backing_device: "{{ item.device }}"
-    password: "{{ password_file }}"
-    opts: luks
-    state: present
-  loop: "{{ disks }}"
-
-
-- name: create fstab entries for drives
-  mount:
-    path: "{{ mount_path + item.name }}"
-    src: "{{ '/dev/mapper/' + item.name }}"
-    state: present
-    fstype: ext4
-  loop: "{{ disks }}"
+  - name: create fstab entries for drives
+    mount:
+      path: "{{ mount_path + item.name }}"
+      src: "{{ '/dev/mapper/' + item.name }}"
+      state: present
+      fstype: ext4
+    loop: "{{ disks }}"
