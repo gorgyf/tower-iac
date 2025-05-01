@@ -12,6 +12,7 @@
       vars:
         authorized_keys:
           - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDDh4Vgbz/LPnrQo1W+PYoZqSE/sQI6QZDdnqJowvNSCo+e/7zuxVf/M4OrYTcptTVaLmgye2Y5Oj/yeOciqoTahQaXdPve+mOTWuElQweYoenq180p7Cz0Q0WZye0i30KPk3By+juE3Fk6dtX1Jp4h9/pt+reDksC8aS5s4J7NQC9NRhak/wjnGdyYsRPFG1ieCKZ5ZbNCer4UoeaJnsSBV13gK69y9zufbVTZPVgNIVRD4+CvV/FcKFi7tMm1/EjaME1zRCRWkm2yB7j3OKqbd3wDSgeaXEDoMEzt6oru1rAnAP/VB7YdW/qkS/F4bw2H63BgGHejTZ76oiRSWExVgk4PNKAQ29ucZWgYMLAj1OVJq5NRCEw2UGkl4O4LFacdQEu6vidEPKvLW8jsyxlpUaVVgxudTvgqfUsw/kc6EVRIK91bsj4J6B6yPejLkB0oKU66AQIRRUsf8+sB9vjNTauVQ/9oH09KHF8aW/zeREXGs4Dj/MkHYT+o8uefKrk= gf@gf-Aspire-E5-575G
+          - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA3xqfpsfbUkmiEtiPiJO77E2pTNV3C9rOYMlGN7zHxi gf@gf-IdeaPad
     - role: wol
       vars:
         device_name: netplan-enp5s0
