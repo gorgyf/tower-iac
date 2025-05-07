@@ -4,6 +4,7 @@
   roles:
     - role: osconfig
       vars:
+        user: gf
         mount_path: /media/gf/
         disks: # note: get your drive UUIDs with 'lsblk -f'
           - name: SanDisk1TB
@@ -11,13 +12,12 @@
     - role: dropbear
       vars:
         authorized_keys:
-          - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDDh4Vgbz/LPnrQo1W+PYoZqSE/sQI6QZDdnqJowvNSCo+e/7zuxVf/M4OrYTcptTVaLmgye2Y5Oj/yeOciqoTahQaXdPve+mOTWuElQweYoenq180p7Cz0Q0WZye0i30KPk3By+juE3Fk6dtX1Jp4h9/pt+reDksC8aS5s4J7NQC9NRhak/wjnGdyYsRPFG1ieCKZ5ZbNCer4UoeaJnsSBV13gK69y9zufbVTZPVgNIVRD4+CvV/FcKFi7tMm1/EjaME1zRCRWkm2yB7j3OKqbd3wDSgeaXEDoMEzt6oru1rAnAP/VB7YdW/qkS/F4bw2H63BgGHejTZ76oiRSWExVgk4PNKAQ29ucZWgYMLAj1OVJq5NRCEw2UGkl4O4LFacdQEu6vidEPKvLW8jsyxlpUaVVgxudTvgqfUsw/kc6EVRIK91bsj4J6B6yPejLkB0oKU66AQIRRUsf8+sB9vjNTauVQ/9oH09KHF8aW/zeREXGs4Dj/MkHYT+o8uefKrk= gf@gf-Aspire-E5-575G
-          - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA3xqfpsfbUkmiEtiPiJO77E2pTNV3C9rOYMlGN7zHxi gf@gf-IdeaPad
+          - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC1WwXNP5WP9ZvYJGotHlX26Y1uZD1ohv77jaeuSfTCBhiXWtpp8bz/+dEBUenVV3jsrye6pXyiHWBITbOo8Wu9QcE6er39ucc8uH8ASdpdxFNK8+j7gosaiqAgwsAdxr4m/4bWg7aaQQAD1pSLaJ+B1/eiShK9JIKYfPWTml5cFoKqsdRPpHk/K4j0xZYfwX/kyG0+bb6J/+PbZESpC3Z+McVTnm/8/HjF1Y2frT1bZZzLLS5GPivojDv8dC8p3Xfw7jJy5pQPMI/USGkCEZeFZcSHESKeItg5cLqjX02FGbJM05DtBaCOIEbgNIFX0p7/YTKYhUIN6NJSeHzZtHJ+nX0YBcfDVz8rRF2r9jI4AFuN82yvw8E+Fqez9/wPkhhPzgSAxiXOHwX3XckxgzWBkkiF6sD5gumOlKmVnADAVqaNIEWsHXl23HkptMFC4Elu7U8/ZWjhZnJJjTfzSOM9ehjbvPdS1zcgVzW3E7BcPT4H+2ckBqubsnye2pJOZegWzf44vYt+LENKGZocxtvgJXUDgIb4vOjjOSfb0t1Z2R7qrTn/xUgkjayFDlwpiEsGFvTIuc25HXy/lYb8YzvdfD6ABprMo3vZLswlQY85A7IGcUmS/I9z4CJnhuvXnlErWbAbK9u8Me10iVGU5Ta0J8ZLHEetkWYK1QnTT57wMQ== gf@gf-IdeaPad
     - role: wol
       vars:
         device_name: netplan-enp5s0
     - role: jupyterhub
       vars:
         install_path: /opt/jupyterhub/
-        jupyterhub_repo: https://github.com/zr123/jupyterhub
+        jupyterhub_repo: https://github.com/gorgyf/jupyterhub
     - role: portainer

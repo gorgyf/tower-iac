@@ -1,0 +1,7 @@
+---
+# handlers file for osconfig
+
+- name: Restart systemd-logind
+  systemd:
+    name: systemd-logind
+    state: restarted

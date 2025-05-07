@@ -5,3 +5,4 @@ password_file: /root/lukskey
 encryption_key: DefaultPassword
 mount_path: /media/gf/
 disks: []
+user: gf

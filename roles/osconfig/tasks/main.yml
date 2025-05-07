@@ -55,16 +55,34 @@
 
 
 - name: Various OS configurations
-  block:
-  - name: set sleep timeout delay to 3 hours
-    command: 
-      cmd: "gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 10800"
+  block:  
+  - name: disable lock screen
+    become: yes
+    become_user: "{{ user }}"
+    shell: |
+      gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'
+      gsettings set org.gnome.desktop.screensaver ubuntu-lock-on-suspend false
+      gsettings set org.gnome.desktop.screensaver lock-enabled false
     tags: molecule-notest
 
-  - name: disable lock screen
-    command: 
-      cmd: "gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'"
-    tags: molecule-notest
+  - name: Edit /etc/systemd/logind.conf for auto suspend
+    template:
+      src: "logind.conf.j2"
+      dest: "/etc/systemd/logind.conf"
+    notify: Restart systemd-logind
+
+  - name: Edit /etc/gdm3/custom.conf for autologin and disbale wayland
+    template:
+      src: "custom.conf.j2"
+      dest: "/etc/gdm3/custom.conf"
+
+  - name: Set GNOME Dock to show at bottom and auto-hide
+    become: yes
+    become_user: "{{ user }}"
+    ansible.builtin.shell: |
+      gsettings set org.gnome.shell.extensions.dash-to-dock dock-position 'BOTTOM'
+      gsettings set org.gnome.shell.extensions.dash-to-dock autohide true
+      gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
 
 
 - name: Setup for additional encrypted disk(s)
