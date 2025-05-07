@@ -16,6 +16,7 @@
         - wget
         - flatpak
         - gnome-software-plugin-flatpak
+        - gdm3
       state: present
       update_cache: yes
 
@@ -32,6 +33,12 @@
     community.general.flatpak:
       name:
         - com.heroicgameslauncher.hgl
+        - dev.lizardbyte.app.Sunshine
+  
+  - name: Autostart Sunshine
+    template:
+      src: "sunshine.desktop.j2"
+      dest: "/home/{{ user }}/.config/autostart/sunshine.desktop"
 
 
 - name: Configure Nvidia support for containers
