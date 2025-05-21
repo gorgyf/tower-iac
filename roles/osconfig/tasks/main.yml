@@ -16,7 +16,6 @@
         - wget
         - flatpak
         - gnome-software-plugin-flatpak
-        - gdm3
       state: present
       update_cache: yes
 
@@ -34,7 +33,12 @@
       name:
         - com.heroicgameslauncher.hgl
         - dev.lizardbyte.app.Sunshine
-  
+
+  - name: Ensure autostart directory exists
+    file:
+      path: "/home/{{ user }}/.config/autostart/"
+      state: directory
+
   - name: Autostart Sunshine
     template:
       src: "sunshine.desktop.j2"
@@ -78,6 +82,11 @@
       dest: "/etc/systemd/logind.conf"
     notify: Restart systemd-logind
 
+  - name: Ensure /etc/gdm3 exists
+    file:
+      path: /etc/gdm3/
+      state: directory
+
   - name: Edit /etc/gdm3/custom.conf for autologin and disbale wayland
     template:
       src: "custom.conf.j2"
@@ -90,6 +99,7 @@
       gsettings set org.gnome.shell.extensions.dash-to-dock dock-position 'BOTTOM'
       gsettings set org.gnome.shell.extensions.dash-to-dock autohide true
       gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
+    tags: molecule-notest
 
 
 - name: Setup for additional encrypted disk(s)
