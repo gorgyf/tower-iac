@@ -5,3 +5,4 @@
   systemd:
     name: systemd-logind
     state: restarted
+  tags: molecule-notest
