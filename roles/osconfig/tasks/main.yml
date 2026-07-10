@@ -7,6 +7,7 @@
     apt:
       upgrade: yes
       update_cache: yes
+    notify: Autoinstall recommended ubuntu-drivers
 
   - name: install packages
     apt:
@@ -15,7 +16,9 @@
         - gpg
         - wget
         - flatpak
-        - gnome-software-plugin-flatpak
+      #  - gnome-software-plugin-flatpak
+        - kde-config-flatpak
+        - xdg-desktop-portal-kde
       state: present
       update_cache: yes
 
@@ -32,17 +35,11 @@
     community.general.flatpak:
       name:
         - com.heroicgameslauncher.hgl
-        - dev.lizardbyte.app.Sunshine
-
-  - name: Ensure autostart directory exists
-    file:
-      path: "/home/{{ user }}/.config/autostart/"
-      state: directory
-
-  - name: Autostart Sunshine
-    template:
-      src: "sunshine.desktop.j2"
-      dest: "/home/{{ user }}/.config/autostart/sunshine.desktop"
+        # - dev.lizardbyte.app.Sunshine
+        # install Sunshine manually instead: see https://docs.lizardbyte.dev/projects/sunshine/latest/md_docs_2getting__started.html
+        # download from https://github.com/LizardByte/Sunshine/releases/latest
+        # install with sudo dpkg -i ./sunshine-{distro}-{distro-version}-{arch}.deb
+        # setup start on boot with: systemctl --user --now enable app-dev.lizardbyte.app.Sunshine
 
 
 - name: Configure Nvidia support for containers
@@ -63,44 +60,6 @@
         - nvidia-container-toolkit
       state: present
       update_cache: yes
-
-
-- name: Various OS configurations
-  block:  
-  - name: disable lock screen
-    become: yes
-    become_user: "{{ user }}"
-    shell: |
-      gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'
-      gsettings set org.gnome.desktop.screensaver ubuntu-lock-on-suspend false
-      gsettings set org.gnome.desktop.screensaver lock-enabled false
-    tags: molecule-notest
-
-  - name: Edit /etc/systemd/logind.conf for auto suspend
-    template:
-      src: "logind.conf.j2"
-      dest: "/etc/systemd/logind.conf"
-    notify: Restart systemd-logind
-    tags: molecule-notest
-
-  - name: Ensure /etc/gdm3 exists
-    file:
-      path: /etc/gdm3/
-      state: directory
-
-  - name: Edit /etc/gdm3/custom.conf for autologin and disbale wayland
-    template:
-      src: "custom.conf.j2"
-      dest: "/etc/gdm3/custom.conf"
-
-  - name: Set GNOME Dock to show at bottom and auto-hide
-    become: yes
-    become_user: "{{ user }}"
-    ansible.builtin.shell: |
-      gsettings set org.gnome.shell.extensions.dash-to-dock dock-position 'BOTTOM'
-      gsettings set org.gnome.shell.extensions.dash-to-dock autohide true
-      gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
-    tags: molecule-notest
 
 
 - name: Setup for additional encrypted disk(s)
@@ -127,3 +86,53 @@
       state: present
       fstype: ext4
     loop: "{{ disks }}"
+
+
+- name: Setup QEMU/KVM
+  block:
+  - name: install packages
+    apt:
+      pkg:
+        - qemu-kvm
+        - libvirt-daemon-system
+        - libvirt-clients
+        - bridge-utils 
+        - virt-manager
+        - virtinst 
+        - ovmf
+      state: present
+      update_cache: yes
+
+  - name: Grant VM permissions
+    ansible.builtin.user:
+      name: "{{ user }}"
+      groups: libvirt,kvm
+      append: true
+    notify: Start KVM service
+
+  - name: Verify KVM acceleration is available
+    ansible.builtin.command: kvm-ok
+    register: kvm_check
+    changed_when: false
+    failed_when: "'KVM acceleration can be used' not in kvm_check.stdout"
+
+  - name: Show kvm-ok result
+    ansible.builtin.debug:
+      var: kvm_check.stdout
+
+
+- name: Add multiverse repository
+  ansible.builtin.apt_repository:
+    repo: "{{ item }}"
+    state: present
+    update_cache: false
+  loop:
+    - "deb http://archive.ubuntu.com/ubuntu {{ ansible_distribution_release }} multiverse"
+    - "deb http://archive.ubuntu.com/ubuntu {{ ansible_distribution_release }}-updates multiverse"
+
+
+- name: Install Steam-installer
+  ansible.builtin.apt:
+    name: steam-installer
+    state: present
+    update_cache: yes
