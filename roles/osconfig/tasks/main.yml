@@ -124,10 +124,14 @@
 
 
 - name: Add multiverse repository
-  ansible.builtin.apt_repository:
-    repo: "deb http://archive.ubuntu.com/ubuntu {{ ansible_distribution_release }} multiverse"
+  ansible.builtin.deb822_repository:
+    name: ubuntu-multiverse
+    types: deb
+    uris: http://archive.ubuntu.com/ubuntu
+    suites: "{{ ansible_distribution_release }}"
+    components: multiverse
     state: present
-    update_cache: false
+  register: multiverse_repo
 
 
 - name: Install Steam-installer
