@@ -16,6 +16,7 @@
         - gpg
         - wget
         - flatpak
+        - python3-debian
       #  - gnome-software-plugin-flatpak
         - kde-config-flatpak
         - xdg-desktop-portal-kde
