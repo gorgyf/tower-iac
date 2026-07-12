@@ -7,7 +7,6 @@
     apt:
       upgrade: yes
       update_cache: yes
-    notify: Autoinstall recommended ubuntu-drivers
 
   - name: install packages
     apt:
@@ -21,6 +20,10 @@
         - xdg-desktop-portal-kde
       state: present
       update_cache: yes
+
+  - name: Autoinstall recommended ubuntu-drivers
+    command: ubuntu-drivers autoinstall
+    tags: molecule-notest
 
 
 - name: Setup flathub and install flatpaks

@@ -7,10 +7,6 @@
     state: restarted
 
 
-- name: Autoinstall recommended ubuntu-drivers
-  command: ubuntu-drivers autoinstall
-
-
 - name: Start KVM service
   ansible.builtin.systemd:
     name: libvirtd
