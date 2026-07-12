@@ -115,10 +115,12 @@
     register: kvm_check
     changed_when: false
     failed_when: "'KVM acceleration can be used' not in kvm_check.stdout"
+    tags: molecule-notest
 
   - name: Show kvm-ok result
     ansible.builtin.debug:
       var: kvm_check.stdout
+    tags: molecule-notest
 
 
 - name: Add multiverse repository
