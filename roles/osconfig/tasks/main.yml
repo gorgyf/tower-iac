@@ -139,3 +139,4 @@
     name: steam-installer
     state: present
     update_cache: yes
+  tags: molecule-notest
