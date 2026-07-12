@@ -111,7 +111,13 @@
       name: "{{ user }}"
       groups: libvirt,kvm
       append: true
-    notify: Start KVM service
+
+  - name: Start KVM service
+    ansible.builtin.systemd:
+      name: libvirtd
+      enabled: true
+      state: started
+    tags: molecule-notest
 
   - name: Verify KVM acceleration is available
     ansible.builtin.command: kvm-ok
