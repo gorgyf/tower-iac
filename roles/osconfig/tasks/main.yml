@@ -16,7 +16,6 @@
         - gpg
         - wget
         - flatpak
-        - python3-debian
       #  - gnome-software-plugin-flatpak
         - kde-config-flatpak
         - xdg-desktop-portal-kde
@@ -125,14 +124,14 @@
 
 
 - name: Add multiverse repository
-  ansible.builtin.deb822_repository:
-    name: ubuntu-multiverse
-    types: deb
-    uris: http://archive.ubuntu.com/ubuntu
-    suites: "{{ ansible_distribution_release }}"
-    components: multiverse
+  ansible.builtin.apt_repository:
+    repo: "{{ item }}"
     state: present
-  register: multiverse_repo
+    update_cache: false
+  loop:
+    - "deb http://archive.ubuntu.com/ubuntu {{ ansible_distribution_release }} multiverse"
+    - "deb http://archive.ubuntu.com/ubuntu {{ ansible_distribution_release }}-updates multiverse"
+  tags: molecule-notest
 
 
 - name: Install Steam-installer
